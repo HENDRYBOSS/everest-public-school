@@ -1266,19 +1266,13 @@
 <!-- ABOUT SECTION WITH ANIMATION -->
 <section id="about" class="section-hidden">
     <h3>About Everest Public School</h3>
-    <div class="about-content">
-        <div class="about-text">
-            <p>....................................Everest Public School is a reputed educational institution located in Bardibas-1, Mahottari. Established in 2051 B.S. (1994 A.D.), the school has been providing quality education with dedication and commitment for more than three decades. Since its foundation, Everest Public School has aimed to create a strong academic base while nurturing moral values, discipline, and confidence among students.</p>
-            <p>The school follows a student-centered approach to learning, focusing on academic excellence as well as overall personality development. With the support of qualified and experienced teachers, the institution uses modern teaching methods to make learning effective, interactive, and meaningful. Equal importance is given to classroom learning, practical activities, sports, and cultural programs to ensure holistic development.</p>
-            <p>Everest Public School believes that education is the key to building a responsible and progressive society. The school maintains a safe, disciplined, and friendly learning environment where students are encouraged to explore their abilities and reach their full potential. Character building, leadership skills, and respect for social values are core principles of the institution.</p>
-            <h4>Mission</h4>
-            <p style="font-style: italic; font-weight: bold; color: var(--navy);">"Our mission is to provide quality education that develops academic excellence and strong moral values.
-We aim to create a safe, disciplined, and student-friendly learning environment.
-The school is committed to nurturing critical thinking, creativity, and confidence in every learner.
-We strive to encourage honesty, responsibility, and respect for others.
-Our mission includes preparing students for future challenges through modern and practical education.
-We work to build leadership skills and a sense of social responsibility among students.
-Everest Public School is dedicated to shaping capable, confident, and responsible citizens."</p>
+    <div id="aboutContent">
+        <!-- Content will be loaded from Firebase -->
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading about content...</span>
+            </div>
+            <p class="mt-2">Loading about content...</p>
         </div>
     </div>
     <div class="values-grid">
@@ -1324,7 +1318,7 @@ Everest Public School is dedicated to shaping capable, confident, and responsibl
     </div>
 </section>
 
-<!-- GALLERY SECTION WITH PAGINATION -->
+<!-- GALLERY SECTION WITH PAGINATION AND CATEGORIES -->
 <section id="gallery">
     <h3>School Gallery</h3>
     
@@ -1336,6 +1330,7 @@ Everest Public School is dedicated to shaping capable, confident, and responsibl
         <div class="gallery-tab" data-filter="sports">Sports</div>
         <div class="gallery-tab" data-filter="culture">Cultural Events</div>
     </div>
+    
     <div id="galleryGrid"></div>
     
     <!-- View More/Less Button -->
@@ -1689,6 +1684,56 @@ Everest Public School continues to strive for excellence by nurturing future dis
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    // ================== GALLERY DATA ==================
+    const galleryData = [
+        { src: "1766673231844.jpg", tag: "extracurricular" },
+        { src: "593246838_122194746770331991_48184727456840439_n.jpg", tag: "picnic" }, 
+        { src: "595212006_818687434330015_8389595694705592055_n.jpg", tag: "extracurricular" },
+        { src: "593787729_122194745768331991_5845623079910999971_n.jpg", tag: "picnic" },
+        { src: "599964293_824632083735550_24521965999462668_n.jpg", tag: "picnic" },
+        { src: "Gemini_Generated_Image_9ri1669ri1669ri1 (1).png", tag: "tour" },
+        { src: "593454142_816105064588252_3655690953106568224_n.jpg", tag: "sports" },
+        { src: "595128793_818686630996762_1145266375442900224_n.jpg", tag: "extracurricular" },
+        { src: "0e0a2f6d-7ab2-44d1-92e6-81e9dd64a5f4.jpg", tag: "tour" },
+        { src: "592239394_122194746230331991_3718826142968366627_n.jpg", tag: "picnic" }, 
+        { src: "533485740_730015596530533_4815721697035069751_n.jpg", tag: "culture" },
+        { src: "533956473_730014799863946_1032095295793244287_n.jpg", tag: "culture" },
+        { src: "536287398_735960319269394_4610876973537204347_n.jpg", tag: "culture" },
+        { src: "537091558_735947855937307_6860482927310291479_n.jpg", tag: "culture" },
+        { src: "504455320_675623495303077_5613120604104835488_n.jpg", tag: "sports" },
+        { src: "8ef71921-7691-4928-8bc4-8097d718ffbf.jpg", tag: "tour" },
+        { src: "53a2ff83-5ad9-425d-af0f-7663c8439598.jpg", tag: "extracurricular" },
+        { src: "504534061_675623498636410_1502912327569864704_n.jpg", tag: "sports" },
+        { src: "533463507_730014633197296_1735591148592797827_n.jpg", tag: "culture" }, 
+        { src: "bebcb8b1-2858-410e-a20e-ec91b5ba9bbc.jpg", tag: "tour" },
+        { src: "592374327_122194746224331991_4483494112856248149_n.jpg", tag: "picnic" }, 
+        { src: "500090035_663109969887763_5241363617233979604_n.jpg", tag: "extracurricular" },
+        { src: "593787729_122194745768331991_5845623079910999971_n.jpg", tag: "picnic" }, 
+        { src: "c953e2fd-5e09-4721-809b-053e75f1f2f9.jpg", tag: "tour" },
+        { src: "600323024_826084186923673_314829544975664863_n.jpg", tag: "extracurricular" },
+        { src: "592870553_816105084588250_3639647847805237916_n (1).jpg", tag: "sports" },
+        { src: "600277172_826084013590357_7077883673768238120_n.jpg", tag: "sports" },
+        { src: "491972020_641072942091466_8285571249992126096_n.jpg", tag: "extracurricular" },
+        { src: "576925582_3772836163020402_5771400321286806925_n.jpg", tag: "tour" },
+        { src: "592870553_816105084588250_3639647847805237916_n.jpg", tag: "sports" },
+        { src: "1041e891-158d-4a1a-9f93-82dfad8de0ab.jpg", tag: "extracurricular" },
+        { src: "600252794_826081780257247_8416437049697750734_n.jpg", tag: "sports" },
+        { src: "595307214_122270394560210070_807986700936026793_n.jpg", tag: "tour" },
+        { src: "533024266_730015139863912_2867167916007663534_n.jpg", tag: "culture" }, 
+        { src: "600446727_826083446923747_1948312711537458648_n.jpg", tag: "sports" },
+        { src: "3105db66-f1c9-452e-b19c-26954b5a7c27.jpg", tag: "extracurricular" },
+        { src: "1766672318161.jpg", tag: "extracurricular" }, 
+        { src: "579306004_3772836079687077_5635321653333577098_n.jpg", tag: "tour" },
+        { src: "1766672756560.jpg", tag: "extracurricular" }, 
+        { src: "600895932_826083880257037_4998328326273308303_n.jpg", tag: "sports" },
+        { src: "1766672768343.jpg", tag: "extracurricular" },
+        { src: "1766673016637.jpg", tag: "tour" },
+        { src: "1766672789024.jpg", tag: "tour" },
+        { src: "453e401f-59d5-4f5a-8abd-1c44b3f237b5.jpg", tag: "tour" },
+        { src: "principal_image.jpg", tag: "tour" },
+        { src: "493537597_3602052340098786_781301989243123604_n.jpg", tag: "tour" }
+    ];
+
     // ================== FIREBASE CONFIGURATION ==================
     const firebaseConfig = {
         apiKey: "AIzaSyCrjNBk9v3s_IGG-R9gZBWqLm9qJUbfjE4",
@@ -1943,66 +1988,51 @@ Everest Public School continues to strive for excellence by nurturing future dis
         selectLanguage(currentLang);
     }
 
-    // ================== GALLERY DATA & FUNCTIONS ==================
-    const galleryData = [
-        { src: "1766673231844.jpg", tag: "extracurricular" },
-        { src: "593246838_122194746770331991_48184727456840439_n.jpg", tag: "picnic" }, 
-        { src: "595212006_818687434330015_8389595694705592055_n.jpg", tag: "extracurricular" },
-        { src: "593787729_122194745768331991_5845623079910999971_n.jpg", tag: "picnic" },
-        { src: "599964293_824632083735550_24521965999462668_n.jpg", tag: "picnic" },
-        { src: "Gemini_Generated_Image_9ri1669ri1669ri1 (1).png", tag: "tour" },
-        { src: "593454142_816105064588252_3655690953106568224_n.jpg", tag: "sports" },
-        { src: "595128793_818686630996762_1145266375442900224_n.jpg", tag: "extracurricular" },
-        { src: "0e0a2f6d-7ab2-44d1-92e6-81e9dd64a5f4.jpg", tag: "tour" },
-        { src: "592239394_122194746230331991_3718826142968366627_n.jpg", tag: "picnic" }, 
-        { src: "533485740_730015596530533_4815721697035069751_n.jpg", tag: "culture" },
-        { src: "533956473_730014799863946_1032095295793244287_n.jpg", tag: "culture" },
-        { src: "536287398_735960319269394_4610876973537204347_n.jpg", tag: "culture" },
-        { src: "537091558_735947855937307_6860482927310291479_n.jpg", tag: "culture" },
-        { src: "504455320_675623495303077_5613120604104835488_n.jpg", tag: "sports" },
-        { src: "8ef71921-7691-4928-8bc4-8097d718ffbf.jpg", tag: "tour" },
-        { src: "53a2ff83-5ad9-425d-af0f-7663c8439598.jpg", tag: "extracurricular" },
-        { src: "504534061_675623498636410_1502912327569864704_n.jpg", tag: "sports" },
-        { src: "533463507_730014633197296_1735591148592797827_n.jpg", tag: "culture" }, 
-        { src: "bebcb8b1-2858-410e-a20e-ec91b5ba9bbc.jpg", tag: "tour" },
-        { src: "592374327_122194746224331991_4483494112856248149_n.jpg", tag: "picnic" }, 
-        { src: "500090035_663109969887763_5241363617233979604_n.jpg", tag: "extracurricular" },
-        { src: "593787729_122194745768331991_5845623079910999971_n.jpg", tag: "picnic" }, 
-        { src: "c953e2fd-5e09-4721-809b-053e75f1f2f9.jpg", tag: "tour" },
-        { src: "600323024_826084186923673_314829544975664863_n.jpg", tag: "extracurricular" },
-        { src: "592870553_816105084588250_3639647847805237916_n (1).jpg", tag: "sports" },
-        { src: "600277172_826084013590357_7077883673768238120_n.jpg", tag: "sports" },
-        { src: "491972020_641072942091466_8285571249992126096_n.jpg", tag: "extracurricular" },
-        { src: "576925582_3772836163020402_5771400321286806925_n.jpg", tag: "tour" },
-        { src: "592870553_816105084588250_3639647847805237916_n.jpg", tag: "sports" },
-        { src: "1041e891-158d-4a1a-9f93-82dfad8de0ab.jpg", tag: "extracurricular" },
-        { src: "600252794_826081780257247_8416437049697750734_n.jpg", tag: "sports" },
-        { src: "595307214_122270394560210070_807986700936026793_n.jpg", tag: "tour" },
-        { src: "533024266_730015139863912_2867167916007663534_n.jpg", tag: "culture" }, 
-        { src: "600446727_826083446923747_1948312711537458648_n.jpg", tag: "sports" },
-        { src: "3105db66-f1c9-452e-b19c-26954b5a7c27.jpg", tag: "extracurricular" },
-        { src: "1766672318161.jpg", tag: "extracurricular" }, 
-        { src: "579306004_3772836079687077_5635321653333577098_n.jpg", tag: "tour" },
-        { src: "1766672756560.jpg", tag: "extracurricular" }, 
-        { src: "600895932_826083880257037_4998328326273308303_n.jpg", tag: "sports" },
-        { src: "1766672768343.jpg", tag: "extracurricular" },
-        { src: "1766673016637.jpg", tag: "tour" },
-        { src: "1766672789024.jpg", tag: "tour" },
-        { src: "453e401f-59d5-4f5a-8abd-1c44b3f237b5.jpg", tag: "tour" },
-        { src: "principal_image.jpg", tag: "tour" },
-        { src: "493537597_3602052340098786_781301989243123604_n.jpg", tag: "tour" }
-    ];
-
-    const GALLERY_ITEMS_PER_PAGE = 9;
+    // ================== GALLERY FUNCTIONS (UPDATED WITH STATIC DATA) ==================
+    const GALLERY_ITEMS_PER_PAGE = 12;
     let currentGalleryPage = 1;
     let currentGalleryFilter = 'all';
     let displayedImages = [];
     
-    function renderGallery(filter = 'all', page = 1) {
+    // Category mapping
+    const categoryMapping = {
+        'tour': 'Tour',
+        'extracurricular': 'Extra-Curricular Activities',
+        'picnic': 'Picnic',
+        'sports': 'Sports',
+        'culture': 'Cultural Events'
+    };
+    
+    // Load gallery images from static data
+    function loadGalleryFromStatic(filter = 'all', page = 1) {
         const galleryGrid = document.getElementById('galleryGrid');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
         
-        const filteredImages = galleryData.filter(item => filter === 'all' || item.tag === filter);
+        galleryGrid.innerHTML = `
+            <div class="text-center py-5" style="grid-column: 1 / -1;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading gallery...</span>
+                </div>
+                <p class="mt-2">Loading gallery images...</p>
+            </div>
+        `;
+        
+        // Use static galleryData
+        setTimeout(() => {
+            renderGalleryStatic(filter, page);
+        }, 300);
+    }
+    
+    function renderGalleryStatic(filter = 'all', page = 1) {
+        const galleryGrid = document.getElementById('galleryGrid');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        
+        // Filter images
+        let filteredImages = galleryData;
+        if (filter !== 'all') {
+            filteredImages = galleryData.filter(img => img.tag === filter);
+        }
+        
         const totalImages = filteredImages.length;
         const startIndex = (page - 1) * GALLERY_ITEMS_PER_PAGE;
         const endIndex = startIndex + GALLERY_ITEMS_PER_PAGE;
@@ -2013,13 +2043,29 @@ Everest Public School continues to strive for excellence by nurturing future dis
             displayedImages = [];
         }
         
+        if (imagesToShow.length === 0) {
+            if (page === 1) {
+                galleryGrid.innerHTML = `
+                    <div class="text-center py-5" style="grid-column: 1 / -1;">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h5>No Images Found</h5>
+                        <p class="text-muted">No images in the "${categoryMapping[filter] || 'selected'}" category.</p>
+                    </div>
+                `;
+            }
+            loadMoreBtn.style.display = 'none';
+            return;
+        }
+        
         imagesToShow.forEach((item, index) => {
             const globalIndex = displayedImages.length;
             const div = document.createElement('div');
             div.className = 'gallery-item';
             div.setAttribute('data-tag', item.tag);
             div.style.setProperty('--i', globalIndex);
-            div.innerHTML = `<img src="${item.src}" alt="Gallery Image" class="gallery-img" loading="lazy">`;
+            div.innerHTML = `
+                <img src="${item.src}" alt="Gallery Image" class="gallery-img" loading="lazy">
+            `;
             galleryGrid.appendChild(div);
             displayedImages.push(item);
         });
@@ -2043,32 +2089,69 @@ Everest Public School continues to strive for excellence by nurturing future dis
         setupLightbox();
         if (currentLang !== 'en') translateElements(currentLang);
     }
-
+    
+    function filterGallery(filter = 'all') {
+        currentGalleryFilter = filter;
+        currentGalleryPage = 1;
+        renderGalleryStatic(filter, 1);
+        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.gallery-tab[data-filter="${filter}"]`).classList.add('active');
+    }
+    
     function loadMoreImages() {
-        const filteredImages = galleryData.filter(item => currentGalleryFilter === 'all' || item.tag === currentGalleryFilter);
+        const filteredImages = galleryData.filter(item => 
+            currentGalleryFilter === 'all' || item.tag === currentGalleryFilter
+        );
         const totalPages = Math.ceil(filteredImages.length / GALLERY_ITEMS_PER_PAGE);
         
         if (currentGalleryPage < totalPages) {
             currentGalleryPage++;
-            renderGallery(currentGalleryFilter, currentGalleryPage);
+            renderGalleryStatic(currentGalleryFilter, currentGalleryPage);
         } else if (currentGalleryPage === totalPages) {
             currentGalleryPage = 1;
-            renderGallery(currentGalleryFilter, currentGalleryPage);
+            renderGalleryStatic(currentGalleryFilter, currentGalleryPage);
         }
     }
-
-    function filterGallery(filter = 'all') {
-        currentGalleryFilter = filter;
-        currentGalleryPage = 1;
-        renderGallery(filter, 1);
-        document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
-        document.querySelector(`.gallery-tab[data-filter="${filter}"]`).classList.add('active');
+    
+    // ================== ABOUT SECTION FUNCTIONS ==================
+    function loadAboutContentFromFirebase() {
+        const aboutContent = document.getElementById('aboutContent');
+        
+        db.ref('about_section').once('value').then(snapshot => {
+            if (snapshot.exists()) {
+                const aboutData = snapshot.val();
+                aboutContent.innerHTML = aboutData.content || `
+                    <div class="about-text">
+                        <p>Welcome to Everest Public School, a premier educational institution dedicated to nurturing young minds and shaping future leaders.</p>
+                        <p>Our mission is to provide quality education that empowers students to achieve their full potential academically, socially, and emotionally.</p>
+                        <p>To be recognized as a leading educational institution that produces responsible, innovative, and globally competitive citizens.</p>
+                    </div>
+                `;
+            } else {
+                aboutContent.innerHTML = `
+                    <div class="about-text">
+                        <p>Welcome to Everest Public School, a premier educational institution dedicated to nurturing young minds and shaping future leaders.</p>
+                        <p>Our mission is to provide quality education that empowers students to achieve their full potential academically, socially, and emotionally.</p>
+                        <p>To be recognized as a leading educational institution that produces responsible, innovative, and globally competitive citizens.</p>
+                    </div>
+                `;
+            }
+        }).catch(error => {
+            console.error('Error loading about content:', error);
+            aboutContent.innerHTML = `
+                <div class="about-text">
+                    <p>Welcome to Everest Public School, a premier educational institution dedicated to nurturing young minds and shaping future leaders.</p>
+                    <p>Our mission is to provide quality education that empowers students to achieve their full potential academically, socially, and emotionally.</p>
+                    <p>To be recognized as a leading educational institution that produces responsible, innovative, and globally competitive citizens.</p>
+                </div>
+            `;
+        });
     }
-
+    
     // ================== LIGHTBOX FUNCTIONS ==================
     let currentLightboxIndex = 0;
     let currentLightboxImages = [];
-
+    
     function setupLightbox() {
         document.querySelectorAll('.gallery-img').forEach((img, index) => {
             img.addEventListener('click', function() { openLightbox(this.src, index); });
@@ -2078,7 +2161,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             img.addEventListener('click', function() { openLightbox(this.src, index); });
         });
     }
-
+    
     function openLightbox(imgSrc, index) {
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
@@ -2094,19 +2177,19 @@ Everest Public School continues to strive for excellence by nurturing future dis
         document.body.style.overflow = 'hidden';
         document.addEventListener('keydown', handleLightboxKeyboard);
     }
-
+    
     function updateLightboxCounter() {
         const counter = document.getElementById('lightbox-counter');
         counter.textContent = `${currentLightboxIndex + 1} / ${currentLightboxImages.length}`;
     }
-
+    
     function closeLightbox() {
         const lightbox = document.getElementById('lightbox');
         lightbox.style.display = 'none';
         document.body.style.overflow = 'auto';
         document.removeEventListener('keydown', handleLightboxKeyboard);
     }
-
+    
     function navigateLightbox(direction) {
         if (direction === 'next') {
             currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxImages.length;
@@ -2118,13 +2201,13 @@ Everest Public School continues to strive for excellence by nurturing future dis
         lightboxImg.src = currentLightboxImages[currentLightboxIndex];
         updateLightboxCounter();
     }
-
+    
     function handleLightboxKeyboard(e) {
         if (e.key === 'Escape') closeLightbox();
         else if (e.key === 'ArrowRight') navigateLightbox('next');
         else if (e.key === 'ArrowLeft') navigateLightbox('prev');
     }
-
+    
     // ================== ADMISSION FORM FUNCTIONS ==================
     function toggleAdmissionForm() {
         const wrapper = document.getElementById('admissionFormWrapper');
@@ -2143,7 +2226,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             setTimeout(() => wrapper.classList.add('open'), 10);
         }
     }
-
+    
     function updateFileName(input) {
         const display = document.getElementById('fileNameDisplay');
         if (input.files.length > 0) {
@@ -2152,7 +2235,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             display.style.fontWeight = "bold";
         }
     }
-
+    
     // ================== EVENT FUNCTIONS ==================
     function loadEventsFromFirebase() {
         const eventCardGrid = document.getElementById('eventCardGrid');
@@ -2230,7 +2313,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             `;
         });
     }
-
+    
     function filterEvents() {
         const searchInput = document.getElementById('eventSearch').value.toLowerCase();
         const eventItems = document.querySelectorAll('#eventCardGrid .event-item');
@@ -2269,7 +2352,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             }
         }
     }
-
+    
     // ================== SLIDER FUNCTIONS ==================
     function setupSliders() {
         document.querySelectorAll('.seq-slider').forEach(slider => {
@@ -2282,17 +2365,17 @@ Everest Public School continues to strive for excellence by nurturing future dis
                 images.forEach(img => img.classList.remove('active'));
                 images[index].classList.add('active');
             }
-
+    
             function nextImage() {
                 activeIndex = (activeIndex + 1) % images.length;
                 showImage(activeIndex);
             }
-
+    
             function prevImage() {
                 activeIndex = (activeIndex - 1 + images.length) % images.length;
                 showImage(activeIndex);
             }
-
+    
             if (nextBtn) nextBtn.addEventListener('click', nextImage);
             if (prevBtn) prevBtn.addEventListener('click', prevImage);
             
@@ -2300,7 +2383,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             showImage(0);
         });
     }
-
+    
     // ================== CHART FUNCTIONS ==================
     let chartInstance = null;
     const years = Array.from({length: 33}, (_, i) => 1994 + i);
@@ -2317,7 +2400,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             tension: 0.4
         }]
     };
-
+    
     function createChart(type = 'bar') {
         const ctx = document.getElementById('performanceChart').getContext('2d');
         if (chartInstance) chartInstance.destroy();
@@ -2343,7 +2426,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
                 }
             }
         };
-
+    
         config.type = type;
         
         if (type !== 'pie' && type !== 'radar') {
@@ -2363,15 +2446,15 @@ Everest Public School continues to strive for excellence by nurturing future dis
         
         chartInstance = new Chart(ctx, config);
     }
-
+    
     function initChart() { createChart('bar'); }
-
+    
     // ================== COUNTER ANIMATION FUNCTIONS ==================
     function animateCounters() {
         const counters = document.querySelectorAll('.counter-item h4');
         const section = document.querySelector('.counter-section');
         let animationStarted = false;
-
+    
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !animationStarted) {
@@ -2396,10 +2479,10 @@ Everest Public School continues to strive for excellence by nurturing future dis
                 }
             });
         }, { threshold: 0.5 });
-
+    
         if (section) observer.observe(section);
     }
-
+    
     // ================== SCROLL ANIMATION FUNCTIONS ==================
     function setupScrollAnimations() {
         const sections = document.querySelectorAll('.section-hidden');
@@ -2414,7 +2497,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
         
         sections.forEach(section => observer.observe(section));
     }
-
+    
     // ================== FORM SUBMISSION FUNCTIONS ==================
     async function resizeImage(file) {
         return new Promise((resolve) => {
@@ -2438,7 +2521,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             };
         });
     }
-
+    
     // ================== SCROLL TO TOP FUNCTION ==================
     function initScrollToTop() {
         const scrollTopBtn = document.getElementById('scrollTopBtn');
@@ -2449,12 +2532,12 @@ Everest Public School continues to strive for excellence by nurturing future dis
                 scrollTopBtn.style.display = "none";
             }
         };
-
+    
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
-
+    
     // ================== MAIN INITIALIZATION ==================
     document.addEventListener('DOMContentLoaded', function() {
         // 1. Fix mobile viewport
@@ -2466,28 +2549,31 @@ Everest Public School continues to strive for excellence by nurturing future dis
         // 3. Initialize translation system
         initTranslationSystem();
         
-        // 4. Render initial gallery
-        renderGallery('all', 1);
+        // 4. Load about content from Firebase
+        loadAboutContentFromFirebase();
         
-        // 5. Load events from Firebase
+        // 5. Load gallery from static data
+        loadGalleryFromStatic('all', 1);
+        
+        // 6. Load events from Firebase
         loadEventsFromFirebase();
         
-        // 6. Setup scroll animations
+        // 7. Setup scroll animations
         setupScrollAnimations();
         
-        // 7. Setup sliders
+        // 8. Setup sliders
         setupSliders();
         
-        // 8. Initialize chart
+        // 9. Initialize chart
         initChart();
         
-        // 9. Animate counters
+        // 10. Animate counters
         animateCounters();
         
-        // 10. Initialize scroll to top
+        // 11. Initialize scroll to top
         initScrollToTop();
         
-        // 11. Setup lightbox event listeners
+        // 12. Setup lightbox event listeners
         document.querySelector('.close-lightbox').addEventListener('click', closeLightbox);
         document.querySelector('.prev-lightbox').addEventListener('click', () => navigateLightbox('prev'));
         document.querySelector('.next-lightbox').addEventListener('click', () => navigateLightbox('next'));
@@ -2495,23 +2581,23 @@ Everest Public School continues to strive for excellence by nurturing future dis
             if (e.target === this) closeLightbox();
         });
         
-        // 12. Gallery tab functionality
+        // 13. Gallery tab functionality
         document.querySelectorAll('.gallery-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 filterGallery(this.getAttribute('data-filter'));
             });
         });
         
-        // 13. Load more images button
+        // 14. Load more images button
         document.getElementById('loadMoreBtn').addEventListener('click', loadMoreImages);
         
-        // 14. Admission form button
+        // 15. Admission form button
         document.getElementById('openAdmissionFormBtn').addEventListener('click', function(e) {
             e.preventDefault();
             toggleAdmissionForm();
         });
         
-        // 15. Chart controls
+        // 16. Chart controls
         document.querySelectorAll('.chart-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
@@ -2520,7 +2606,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
             });
         });
         
-        // 16. Form submission
+        // 17. Form submission
         document.getElementById('enrollmentForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
@@ -2528,15 +2614,15 @@ Everest Public School continues to strive for excellence by nurturing future dis
             
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Processing...';
-
+    
             try {
                 const photoFile = document.getElementById('studentPhoto').files[0];
                 let photoBase64 = "";
-
+    
                 if (photoFile) {
                     photoBase64 = await resizeImage(photoFile);
                 }
-
+    
                 const data = {
                     studentName: document.getElementById('studentName').value,
                     studentPhoto: photoBase64,
@@ -2549,7 +2635,7 @@ Everest Public School continues to strive for excellence by nurturing future dis
                     timestamp: Date.now(),
                     status: 'New'
                 };
-
+    
                 await db.ref('student_inquiries').push(data);
                 
                 responseMsg.className = "mt-4 text-center alert alert-success";
@@ -2571,16 +2657,21 @@ Everest Public School continues to strive for excellence by nurturing future dis
             }
         });
         
-        // 17. Setup real-time event updates
+        // 18. Setup real-time updates for events
         db.ref('school_events').on('value', function(snapshot) {
             loadEventsFromFirebase();
         });
         
-        // 18. Handle window resize
+        // 19. Setup real-time updates for about section
+        db.ref('about_section').on('value', function(snapshot) {
+            loadAboutContentFromFirebase();
+        });
+        
+        // 20. Handle window resize
         window.addEventListener('resize', function() {
             fixMobileViewport();
         });
-
+    
         // Make functions available globally
         window.toggleAdmissionForm = toggleAdmissionForm;
         window.filterEvents = filterEvents;
@@ -2588,7 +2679,31 @@ Everest Public School continues to strive for excellence by nurturing future dis
         window.filterGallery = filterGallery;
         window.loadMoreImages = loadMoreImages;
     });
-
+    
+    // Helper function for notifications
+    function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type} alert-dismissible fade show`;
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.zIndex = '10000';
+        notification.style.minWidth = '300px';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 5000);
+    }
 </script>
 
 </body>
